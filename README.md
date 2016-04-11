@@ -1,1 +1,1 @@
-# blackjack_ruby
+A simple Blackjack game written in Ruby.
