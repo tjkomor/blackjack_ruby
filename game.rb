@@ -8,4 +8,13 @@ class Game
     @dealer = Dealer.new
     @player = Player.new
   end
+
+  def start_game
+    dealer.deal_to_player.each do |card|
+      player.cards << card
+    end
+    dealer.deal_to_self.each do |card|
+      dealer.cards << card
+    end
+  end
 end
