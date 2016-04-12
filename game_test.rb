@@ -9,5 +9,6 @@ class GameTest < Minitest::Test
     game.start_game
 
     assert_equal 2, game.player.cards.count
+    assert_equal 2, game.dealer.cards.count
   end
 end

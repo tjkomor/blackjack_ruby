@@ -10,9 +10,9 @@ class Game
   end
 
   def start_game
-    dealer.deal.each do |card|
-      player.cards << card
-    end
-    player.cards
+    player.cards << dealer.deal_to_player.first
+    player.cards << dealer.deal_to_player.last
+    dealer.cards << dealer.deal_to_self.first
+    dealer.cards << dealer.deal_to_self.last
   end
 end
