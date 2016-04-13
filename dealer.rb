@@ -24,4 +24,8 @@ class Dealer
     @deck.cards.delete(own_cards.last[0])
     own_cards
   end
+
+  def deal_player_hit
+    @deck.cards.to_a.shuffle.first
+  end
 end

@@ -22,4 +22,12 @@ class GameTest < Minitest::Test
     assert_equal 48, game.dealer.deck.cards.count
     refute_equal game.player.cards.first, game.dealer.cards.first
   end
+
+  def test_player_can_hit
+    game = Game.new
+    game.start_game
+    game.player_hits
+
+    assert_equal 3, game.player.cards.count
+  end
 end
