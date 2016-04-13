@@ -29,5 +29,26 @@ class GameTest < Minitest::Test
     game.player_hits
 
     assert_equal 3, game.player.cards.count
+    assert_equal 47, game.dealer.deck.cards.count
+  end
+
+  def test_dealer_can_hit
+    game = Game.new
+    game.start_game
+    game.dealer_hits
+
+    assert_equal 3, game.dealer.cards.count
+    assert_equal 47, game.dealer.deck.cards.count
+  end
+
+  def test_player_and_dealer_can_both_hit
+    game = Game.new
+    game.start_game
+    game.player_hits
+    game.dealer_hits
+
+    assert_equal 3, game.dealer.cards.count
+    assert_equal 3, game.player.cards.count
+    assert_equal 46, game.dealer.deck.cards.count
   end
 end

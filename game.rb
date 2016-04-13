@@ -21,4 +21,8 @@ class Game
   def player_hits
     player.cards << dealer.deal_player_hit
   end
+
+  def dealer_hits
+    dealer.cards << dealer.deal_own_hit
+  end
 end
