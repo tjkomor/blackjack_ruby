@@ -26,6 +26,16 @@ class Dealer
   end
 
   def deal_player_hit
-    @deck.cards.to_a.shuffle.first
+    player_hit = []
+    player_hit << @deck.cards.to_a.shuffle.first
+    @deck.cards.delete(player_hit.first[0])
+    player_hit
+  end
+
+  def deal_own_hit
+    dealer_hit = []
+    dealer_hit << @deck.cards.to_a.shuffle.first
+    @deck.cards.delete(dealer_hit.first[0])
+    dealer_hit
   end
 end
