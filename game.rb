@@ -34,11 +34,15 @@ class Game
     player.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
   end
 
+  def check_bust
+    player_score > 21
+  end
+
   def check_score
-    if player_score < 21 && player_score < dealer_score
-      "You Win!"
+    if check_bust || player_score < dealer_score
+      "You lose, loser."
     else
-      "You loser, loser."
+      "You Win!"
     end
   end
 end
