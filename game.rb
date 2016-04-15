@@ -27,13 +27,11 @@ class Game
   end
 
   def dealer_score
-    require 'pry' ; binding.pry
-    dealer.cards.select { |card| card.class == Fixnum }
+    dealer.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
   end
 
   def player_score
-    require 'pry' ; binding.pry
-    player.cards.select { |card| card.class == Fixnum }
+    player.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
   end
 
   def check_score
