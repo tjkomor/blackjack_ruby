@@ -80,7 +80,45 @@ class GameTest < Minitest::Test
 
     if game.dealer.cards.last[1] > 6 && game.player_score < 16
       game.player_hit_option
-      assert_equal 47, game.dealer.deck.cards.count
+      assert game.player.cards.count < 48
+    end
+  end
+
+  def test_dealer_continues_to_hit_until_score_is_greater_than_17
+    game = Game.new
+    game.start_game
+
+    if game.dealer_score < 17
+      game.dealer_hit_option
+      assert game.dealer.cards.count < 48
+    end
+  end
+
+  def test_player_wins_if_dealer_busts
+    game = Game.new
+    game.start_game
+
+    if game.dealer_score > 21
+      assert_equal "You Win!", game.check_dealer_bust
+    end
+  end
+
+  def test_player_wins_with_higher_score_or_dealer_bust
+    game = Game.new
+    game.start_game
+    if game.check_dealer_bust || game.check_score
+      assert "You Win!"
+    else
+      assert "You lose, loser."
+    end
+  end
+
+  def test_push_if_player_and_dealer_have_same_score
+    game = Game.new
+    game.start_game
+
+    if game.dealer_score == game.player_score
+      assert "Push"
     end
   end
 end
