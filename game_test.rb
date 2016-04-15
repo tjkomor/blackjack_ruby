@@ -4,6 +4,7 @@ require 'minitest/pride'
 require_relative 'game'
 
 class GameTest < Minitest::Test
+
   def test_dealer_can_deal_cards_to_player
     game = Game.new
     game.start_game
@@ -21,6 +22,9 @@ class GameTest < Minitest::Test
 
     assert_equal 48, game.dealer.deck.cards.count
     refute_equal game.player.cards.first, game.dealer.cards.first
+    refute_equal game.player.cards.first, game.dealer.cards.last
+    refute_equal game.player.cards.last, game.dealer.cards.first
+    refute_equal game.player.cards.last, game.dealer.cards.last
   end
 
   def test_player_can_hit
@@ -67,6 +71,16 @@ class GameTest < Minitest::Test
 
     if game.dealer_score > game.player_score
       assert_equal "You lose, loser.", game.check_score
+    end
+  end
+
+  def test_player_hits_if_dealer_is_showing_winning_hand
+    game = Game.new
+    game.start_game
+
+    if game.dealer.cards.last[1] > 6 && game.player_score < 16
+      game.player_hit_option
+      assert_equal 47, game.dealer.deck.cards.count
     end
   end
 end

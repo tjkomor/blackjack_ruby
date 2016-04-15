@@ -45,4 +45,10 @@ class Game
       "You Win!"
     end
   end
+
+  def player_hit_option
+    if player_score < 17 && dealer.cards.last[1] >= 7
+      player_hits
+    end
+  end
 end
