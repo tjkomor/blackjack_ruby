@@ -52,19 +52,21 @@ class GameTest < Minitest::Test
     assert_equal 46, game.dealer.deck.cards.count
   end
 
-  def test_player_and_dealer_total_score_is_returned
+  def test_player_wins_if_score_is_higher_than_dealer
     game = Game.new
     game.start_game
 
-    assert_equal 23, game.player_score
-    assert_equal 23, game.dealer_score
+    if game.dealer_score < game.player_score
+      assert_equal "You Win!", game.check_score
+    end
   end
 
-  def test_player_wins_if_score_is_higher_than_dealer
-    skip
+  def test_player_loses_if_score_is_lower_than_dealer
     game = Game.new
     game.start_game
 
-    assert_equal "Player Wins!", game.check_score
+    if game.dealer_score > game.player_score
+      assert_equal "You lose, loser.", game.check_score
+    end
   end
 end

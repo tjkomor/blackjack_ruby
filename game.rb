@@ -27,20 +27,22 @@ class Game
   end
 
   def dealer_score
-    require 'pry' ; binding.pry
-    dealer.cards.select { |card| card.class == Fixnum }
+    dealer.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
   end
 
   def player_score
-    require 'pry' ; binding.pry
-    player.cards.select { |card| card.class == Fixnum }
+    player.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
+  end
+
+  def check_bust
+    player_score > 21
   end
 
   def check_score
-    if player_score < 21 && player_score < dealer_score
-      "You Win!"
+    if check_bust || player_score < dealer_score
+      "You lose, loser."
     else
-      "You loser, loser."
+      "You Win!"
     end
   end
 end
