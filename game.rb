@@ -25,4 +25,22 @@ class Game
   def dealer_hits
     dealer.cards << dealer.deal_own_hit
   end
+
+  def dealer_score
+    require 'pry' ; binding.pry
+    dealer.cards.select { |card| card.class == Fixnum }
+  end
+
+  def player_score
+    require 'pry' ; binding.pry
+    player.cards.select { |card| card.class == Fixnum }
+  end
+
+  def check_score
+    if player_score < 21 && player_score < dealer_score
+      "You Win!"
+    else
+      "You loser, loser."
+    end
+  end
 end
