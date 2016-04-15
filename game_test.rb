@@ -95,6 +95,30 @@ class GameTest < Minitest::Test
   end
 
   def test_player_wins_if_dealer_busts
+    game = Game.new
+    game.start_game
 
+    if game.dealer_score > 21
+      assert_equal "You Win!", game.check_dealer_bust
+    end
+  end
+
+  def test_player_wins_with_higher_score_or_dealer_bust
+    game = Game.new
+    game.start_game
+    if game.check_dealer_bust || game.check_score
+      assert "You Win!"
+    else
+      assert "You lose, loser."
+    end
+  end
+
+  def test_push_if_player_and_dealer_have_same_score
+    game = Game.new
+    game.start_game
+
+    if game.dealer_score == game.player_score
+      assert "Push"
+    end
   end
 end

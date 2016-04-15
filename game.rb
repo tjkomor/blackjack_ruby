@@ -40,7 +40,10 @@ class Game
 
   def check_score
     if check_bust || player_score < dealer_score
+      false
       "You lose, loser."
+    elsif player_score == dealer_score
+      "Push"
     else
       "You Win!"
     end
@@ -52,7 +55,7 @@ class Game
 
   def player_hit_option
     if check_dealer_hand
-      until player_score >= 17 
+      until player_score >= 17
         player_hits
       end
     end
@@ -61,6 +64,16 @@ class Game
   def dealer_hit_option
     until dealer_score >= 17
       dealer_hits
+    end
+  end
+
+  def check_dealer_bust
+    dealer_hit_option
+    if dealer_score > 21
+      true
+      "You Win!"
+    else
+      false
     end
   end
 end
