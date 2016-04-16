@@ -10,11 +10,19 @@ class Game
   end
 
   def start_game
-    dealer.deal_to_player.each do |card|
-      player.cards << card
-    end
+    dealer_first_two_cards
+    player_first_two_cards
+  end
+
+  def dealer_first_two_cards
     dealer.deal_to_self.each do |card|
       dealer.cards << card
+    end
+  end
+
+  def player_first_two_cards
+    dealer.deal_to_player.each do |card|
+      player.cards << card
     end
   end
 
@@ -38,22 +46,30 @@ class Game
     player_score > 21
   end
 
+  def player_beats_dealer?
+    player_score < dealer_score
+  end
+
+  def player_tied_dealer?
+    player_score == dealer_score
+  end
+
   def check_score
-    if check_bust || player_score < dealer_score
+    if check_bust || player_beats_dealer?
       "You lose, loser."
-    elsif player_score == dealer_score
+    elsif player_tied_dealer?
       "Push"
     else
       "You Win!"
     end
   end
 
-  def check_dealer_hand
-    dealer.cards.last[1] >= 7
+  def dealer_show_card
+    dealer.cards.last[1]
   end
 
   def player_hit_option
-    if check_dealer_hand
+    if dealer_show_card >= 7
       until player_score >= 17
         player_hits
       end
