@@ -40,7 +40,6 @@ class Game
 
   def check_score
     if check_bust || player_score < dealer_score
-      false
       "You lose, loser."
     elsif player_score == dealer_score
       "Push"
