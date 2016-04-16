@@ -46,16 +46,16 @@ class Game
     player_score > 21
   end
 
-  def player_beats_dealer?
-    player_score < dealer_score
+  def dealer_beats_player?
+    dealer_score > player_score && dealer_score < 22
   end
 
   def player_tied_dealer?
     player_score == dealer_score
   end
 
-  def check_score
-    if player_busts? || player_beats_dealer?
+  def outcome
+    if player_busts? || dealer_beats_player?
       "You lose, loser."
     elsif player_tied_dealer?
       "Push"
@@ -82,13 +82,10 @@ class Game
     end
   end
 
-  def check_dealer_bust
+  def dealer_busted?
     dealer_hit_option
     if dealer_score > 21
-      true
       "You Win!"
-    else
-      false
     end
   end
 end

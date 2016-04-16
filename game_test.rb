@@ -60,8 +60,8 @@ class GameTest < Minitest::Test
     game = Game.new
     game.start_game
 
-    if game.dealer_score < game.player_score
-      assert_equal "You Win!", game.check_score
+    if game.dealer_score < game.player_score || game.dealer_busted?
+      assert_equal "You Win!", game.outcome
     end
   end
 
@@ -69,8 +69,8 @@ class GameTest < Minitest::Test
     game = Game.new
     game.start_game
 
-    if game.dealer_score > game.player_score
-      assert_equal "You lose, loser.", game.check_score
+    if game.dealer_score > game.player_score && game.dealer_score > 22
+      assert_equal "You lose, loser.", game.outcome
     end
   end
 
@@ -94,22 +94,17 @@ class GameTest < Minitest::Test
     end
   end
 
-  def test_player_wins_if_dealer_busts
-    game = Game.new
-    game.start_game
-
-    if game.dealer_score > 21
-      assert_equal "You Win!", game.check_dealer_bust
-    end
-  end
-
   def test_player_wins_with_higher_score_or_dealer_bust
     game = Game.new
     game.start_game
-    if game.check_dealer_bust || game.check_score
-      assert "You Win!"
+    if game.dealer_busted?
+      assert_equal "You Win!", game.outcome
+    elsif game.dealer_beats_player?
+      assert_equal "You lose, loser.", game.outcome
+    elsif game.player_tied_dealer?
+      assert_equal "Push", game.outcome
     else
-      assert "You lose, loser."
+      assert_equal "You Win!", game.outcome
     end
   end
 
@@ -118,7 +113,7 @@ class GameTest < Minitest::Test
     game.start_game
 
     if game.dealer_score == game.player_score
-      assert "Push"
+      assert_equal "Push", game.outcome
     end
   end
 end
