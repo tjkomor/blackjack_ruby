@@ -10,11 +10,19 @@ class Game
   end
 
   def start_game
-    dealer.deal_to_player.each do |card|
-      player.cards << card
-    end
+    dealer_first_two_cards
+    player_first_two_cards
+  end
+
+  def dealer_first_two_cards
     dealer.deal_to_self.each do |card|
       dealer.cards << card
+    end
+  end
+
+  def player_first_two_cards
+    dealer.deal_to_player.each do |card|
+      player.cards << card
     end
   end
 
@@ -34,26 +42,34 @@ class Game
     player.cards.flatten.select { |card| card.class == Fixnum }.reduce(:+)
   end
 
-  def check_bust
+  def player_busts?
     player_score > 21
   end
 
-  def check_score
-    if check_bust || player_score < dealer_score
+  def dealer_beats_player?
+    dealer_score > player_score && dealer_score < 22
+  end
+
+  def player_tied_dealer?
+    player_score == dealer_score
+  end
+
+  def outcome
+    if player_busts? || dealer_beats_player?
       "You lose, loser."
-    elsif player_score == dealer_score
+    elsif player_tied_dealer?
       "Push"
     else
       "You Win!"
     end
   end
 
-  def check_dealer_hand
-    dealer.cards.last[1] >= 7
+  def dealer_show_card
+    dealer.cards.last[1]
   end
 
   def player_hit_option
-    if check_dealer_hand
+    if dealer_show_card >= 7
       until player_score >= 17
         player_hits
       end
@@ -66,13 +82,10 @@ class Game
     end
   end
 
-  def check_dealer_bust
+  def dealer_busted?
     dealer_hit_option
     if dealer_score > 21
-      true
       "You Win!"
-    else
-      false
     end
   end
 end
